@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -29,3 +27,14 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::middleware(["auth"])->group( function () {
+    Route::get("/", [ProductController::class, "index"])->name("home");
+    Route::get("/products/{product}", [ProductController::class, "show"])->name("product");
+});
+
+Route::middleware(["auth", "isAdmin"])->group( function () {
+    Route::get("/products/store/", [ProductController::class, "store"]);
+    Route::post("/products/store/", [ProductController::class, "store"]);
+    Route::post("products/update/{product}", [ProductController::class, "update"]);
+});
