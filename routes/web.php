@@ -28,13 +28,21 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// user routes
 Route::middleware(["auth"])->group( function () {
-    Route::get("/", [ProductController::class, "index"])->name("home");
-    Route::get("/products/{product}", [ProductController::class, "show"])->name("product");
+    Route::get("/", [ProductController::class, "landing"])->name("home");
+    Route::get("/products/show/{product}", [ProductController::class, "show"])->name("product");
 });
 
-Route::middleware(["auth", "isAdmin"])->group( function () {
-    Route::get("/products/store/", [ProductController::class, "store"]);
-    Route::post("/products/store/", [ProductController::class, "store"]);
-    Route::post("products/update/{product}", [ProductController::class, "update"]);
+// admin routes
+Route::middleware(["auth"])->prefix("/products/")->group( function () {    
+    
+    Route::get("update/{product}", [ProductController::class, "updateView"]);
+    Route::put("update/{product}", [ProductController::class, "update"]);
+
+    Route::get("store/", [ProductController::class, "storeView"]);
+    Route::post("store/", [ProductController::class, "store"]);
+
+    // change this to delete method
+    Route::get("delete/{product}", [ProductController::class, "delete"]);
 });

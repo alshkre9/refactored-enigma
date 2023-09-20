@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 
 class isAdmin
 {
@@ -17,6 +18,7 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
-        return Auth::user() ? $next($request) : redirect()->route("home");
+        $role = User::find(Auth::id())->role;
+        return ($role->name === "admin") ? $next($request) : redirect()->route("home");
     }
 }
