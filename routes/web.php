@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchasesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +34,9 @@ require __DIR__.'/auth.php';
 Route::middleware(["auth"])->group( function () {
     Route::get("/", [ProductController::class, "landing"])->name("home");
     Route::get("/products/show/{product}", [ProductController::class, "show"])->name("product");
+    Route::get("/cart/", [CartController::class, "show"]);
+    Route::post("/cart/purchase", [PurchasesController::class, "store"]);
+    Route::post("/cart/store/{product}", [CartController::class, "store"]);
 });
 
 // admin routes
@@ -43,6 +48,5 @@ Route::middleware(["auth"])->prefix("/products/")->group( function () {
     Route::get("store/", [ProductController::class, "storeView"]);
     Route::post("store/", [ProductController::class, "store"]);
 
-    // change this to delete method
-    Route::get("delete/{product}", [ProductController::class, "delete"]);
+    Route::delete("delete/{product}", [ProductController::class, "delete"]);
 });

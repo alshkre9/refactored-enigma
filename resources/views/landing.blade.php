@@ -6,6 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    {{ $name }}
+    @foreach ($products as $product)
+    <pre>
+        id: {{$product->id}}
+        name: {{$product->name}}
+        image: {{$product->image}}
+        quantity: {{$product->quantity}}
+        description: {{$product->description}}
+        <a href="products/show/{{$product->id}}">{{$product->name}}</a>
+    </pre>
+    @endforeach
 </body>
 </html>

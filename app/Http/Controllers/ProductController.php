@@ -18,7 +18,7 @@ class ProductController extends Controller
     ];
 
     /**
-     * store image in $dir directory and return filename to store
+     * store image in a directory and return filename to store
      */
     private function imageHandler(Request $request): string
     {
@@ -31,7 +31,7 @@ class ProductController extends Controller
     
     public function landing(Request $request): View
     {   
-        return view("landing");
+        return view("landing", ["products" => Product::all()]);
     }
     
     public function show(Request $request, Product $product): View
@@ -39,6 +39,7 @@ class ProductController extends Controller
         $image = Storage::url($product->image);
 
         return view("product.show", [
+            "id" => $product->id,
             "name" => $product->name, 
             "image" => asset($image),
             "quantity" => $product->quantity,
@@ -93,6 +94,6 @@ class ProductController extends Controller
         Storage::delete("public/" . $product->image);
         $product->delete();
 
-        return back();
+        return redirect()->route("home");
     }
 }

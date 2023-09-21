@@ -37,14 +37,13 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        $role = Role::firstOrCreate(["name" => "user"]);
+
+        $user = $role->users->create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        
-        $role = Role::firstOrCreate(["name" => "user"])->users()->save($user);
-
         
         event(new Registered($user));
 
