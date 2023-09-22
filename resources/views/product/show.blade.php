@@ -20,6 +20,11 @@
         <input type="hidden" name="_method" value="delete">
         <button type="submit">delete</button>
     </form>
+    <form action="/cart/store/{{$id}}" method="POST">
+        @csrf
+        <input type="text" value="10" name="quantity">
+        <button type="submit">add to cart</button>
+    </form>
 </body>
 
 </html>

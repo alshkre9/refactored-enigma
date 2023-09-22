@@ -15,7 +15,7 @@ class CartController extends Controller
     
     public function show(Request $request): View
     {
-        return view("cart.cart", ["cart" => $request->cookie("cart")]);
+        return view("cart.cart", ["cart" => json_decode($request->cookie("cart"), true) ?? [] ]);
     }
 
     public function store(Request $request, Product $product)
@@ -25,17 +25,22 @@ class CartController extends Controller
         $cart = [];
         if (($cart = $request->cookie("cart")))
         {
-            $cart = json_decode($cart);
+            $cart = json_decode($cart, true);
         }
-        $cart[] = [
-            $product->id => [
-            "name" => $request->name,
+        $cart[$product->id] = [
+            "name" => $product->name,
             "quantity" => $request->quantity,
             "price" => $product->price,
             "total" => $product->price * $request->quantity
-        ]];
+        ];
         $cart = json_encode($cart);
         $cookie = new Cookie("cart", $cart);
         return response("cookies was set")->cookie($cookie);
+    }
+
+    public function delete(Request $request)
+    {
+        // Cookie::expire('cart');
+        return response("cookies was deleted")->withoutCookie("cart");
     }
 }
