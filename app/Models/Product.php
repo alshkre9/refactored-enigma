@@ -13,12 +13,13 @@ class Product extends Model
     protected $fillable = [
         "name",
         "image",
+        "price",
         "quantity",
         "description"
     ];
 
-    public function purchase(): HasMany
+    public function purchases(): HasMany
     {
-        return $this->hasMany(Purchases::class);
+        return $this->hasMany(Purchase::class);
     }
 }

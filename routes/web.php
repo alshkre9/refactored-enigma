@@ -42,7 +42,7 @@ Route::middleware(["auth"])->group( function () {
     {
         Route::post("purchase/", [PurchaseController::class, "store"]);
 
-        Route::get("", [CartController::class, "show"]);
+        Route::get("", [CartController::class, "show"])->name("cart");
         Route::post("store/{product}", [CartController::class, "store"]);
 
         Route::get("delete/", [CartController::class, "delete"]);

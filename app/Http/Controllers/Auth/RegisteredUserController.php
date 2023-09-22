@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
 
         $role = Role::firstOrCreate(["name" => "user"]);
 
-        $user = $role->users->create([
+        $user = $role->users()->create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

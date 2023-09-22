@@ -12,6 +12,7 @@ class ProductController extends Controller
 {
     private array $validation = [
         "name" => ["Required", "String", "max:255"],
+        "price" => ["Required", "Integer", "min:0"],
         "image" => ["Required", "Image"],
         "quantity" => ["Required", "Integer", "min:0"],
         "description" => ["Required", "String", "max:255"]
@@ -29,6 +30,11 @@ class ProductController extends Controller
         return $filename;
     }
     
+    private function formatPrice(int $number): string
+    {
+        return '$' . number_format($number);
+    }
+    
     public function landing(Request $request): View
     {   
         return view("landing", ["products" => Product::all()]);
@@ -41,6 +47,7 @@ class ProductController extends Controller
         return view("product.show", [
             "id" => $product->id,
             "name" => $product->name, 
+            "price" => $product->price,
             "image" => asset($image),
             "quantity" => $product->quantity,
             "description" => $product->description
@@ -58,6 +65,7 @@ class ProductController extends Controller
 
         $product = Product::create([
             "name" => $request->name,
+            "price" => $this->formatPrice($request->price),
             "image" => $this->imageHandler($request),
             "quantity" => $request->quantity,
             "description" => $request->description
@@ -79,6 +87,7 @@ class ProductController extends Controller
 
         $product->update([
             "name" => $request->name,
+            "price" => $this->formatPrice($request->price),
             "image" => $this->imageHandler($request),
             "quantity" => $request->quantity,
             "description" => $request->description

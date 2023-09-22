@@ -7,13 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    @foreach ($cart as $id => $product)
+    @foreach ($cart as $product)
     
         <pre>
-                name: {{ $product["name"] }}
-                quantity: => {{ $product["quantity"] }}
-                price: => {{ $product["price"] }}
-                total: => {{ $product["total"] }}
+                name: {{ $product[0]->name }}
+                quantity: => {{ $product[1] }}
+                price: => {{ $product[0]->price }}
+                description: {{ $product[0]->description }}
         </pre>
     @endforeach
     <form action="/cart/purchase/" method="post">

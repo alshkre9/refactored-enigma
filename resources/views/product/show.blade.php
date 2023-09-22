@@ -10,6 +10,8 @@
 <body>
     name: {{ $name }}
     <br>
+    price" {{ $price }}
+    <br>
     image: <img src="{{ $image }}" alt="">
     <br>
     quantity: {{ $quantity }}

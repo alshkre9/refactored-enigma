@@ -15,24 +15,25 @@ class CartController extends Controller
     
     public function show(Request $request): View
     {
-        return view("cart.cart", ["cart" => json_decode($request->cookie("cart"), true) ?? [] ]);
+        $productsMock = [];
+        $cart = json_decode($request->cookie("cart"), true);
+        foreach($cart ?? [] as $key => $value)
+        {
+            $productsMock[] = [Product::find($key), $value];
+        }
+        return view("cart.cart", ["cart" => $productsMock]);
     }
 
     public function store(Request $request, Product $product)
     {
-        $request->validate($this->validation);
+        $request->validate($this->validation + ["max:{$product->quantity}"]);
 
         $cart = [];
         if (($cart = $request->cookie("cart")))
         {
             $cart = json_decode($cart, true);
         }
-        $cart[$product->id] = [
-            "name" => $product->name,
-            "quantity" => $request->quantity,
-            "price" => $product->price,
-            "total" => $product->price * $request->quantity
-        ];
+        $cart[$product->id] = $request->quantity;
         $cart = json_encode($cart);
         $cookie = new Cookie("cart", $cart);
         return response("cookies was set")->cookie($cookie);

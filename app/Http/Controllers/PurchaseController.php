@@ -7,22 +7,32 @@ use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class PurchaseController extends Controller
 {
     public function store(Request $request)
     {
         $user = User::find(Auth::id());
-        foreach (json_decode($request->cookie("cart")) as $key => $product)
+        $cart = json_decode($request->cookie("cart"), true);
+        foreach ($cart ?? [] as $key => $value)
         {
             $product = Product::find($key);
-            Purchase::create([
-                "price" => $product["price"],
-                "quantity" =>  $product["quantity"],
-                "total" => $product["total"]
+            
+            if (!$product || ($product->quantity < $value))
+            {
+                unset($cart[$key]);
+                $cookie = new Cookie("cart", json_encode($cart));
+                return redirect()->route("cart")->withCookie($cookie);
+            }
+            $purchase = Purchase::create([
+                "quantity" =>  $value,
             ]);
-
-
+            // add relationship
+            $user->purchases()->save($purchase);
+            $product->purchases()->save($purchase);
         }        
+
+        return redirect()->route("cart")->withoutCookie("cart");
     }
 }

@@ -10,10 +10,8 @@ class Purchase extends Model
 {
     use HasFactory;
 
-    protected array $fillable = [
-        "price",
+    protected  $fillable = [
         "quantity",
-        "total",
     ];
 
     public function user(): BelongsTo
