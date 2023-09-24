@@ -19,12 +19,13 @@ class PurchaseController extends Controller
         {
             $product = Product::find($key);
             
-            if (!$product || ($product->quantity < $value) || getPrice($user->amount) < (getPrice($product->price) * $product->quantity))
+            if (!$product || ($product->quantity < $value) || getPrice($user->amount) < (getPrice($product->price) * $value))
             {
                 unset($cart[$key]);
                 $cookie = new Cookie("cart", json_encode($cart));
                 return redirect()->route("cart")->withCookie($cookie);
             }
+
             $purchase = Purchase::create([
                 "quantity" =>  $value,
                 "price" => $product->price
@@ -36,7 +37,7 @@ class PurchaseController extends Controller
 
             // change price values
             $product->quantity = $product->quantity - $value;
-            $user->price(formatPrice(getPrice($user->amount) - (getPrice($product->price) * $product->quantity)));
+            $user->amount = formatPrice(getPrice($user->amount) - (getPrice($product->price) * $value));
     
             $user->save();
             $product->save();

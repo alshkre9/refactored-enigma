@@ -7,5 +7,5 @@ function formatPrice(int $number): string
 
 function getPrice(string $price): int
 {
-    return (int) str_replace("$", "", $price);
+        return preg_replace("/([^0-9\\.])/i", "", $price);
 }
