@@ -44,4 +44,12 @@ class CartController extends Controller
         // Cookie::expire('cart');
         return response("cookies was deleted")->withoutCookie("cart");
     }
+
+    public function remove(Request $request, Product $product)
+    {
+        $cart = json_decode($request->cookie("cart"), true);
+        unset($cart[$product->id]);
+        $cookie = new Cookie("cart", json_encode($cart));
+        return redirect()->route("cart")->withCookie($cookie);
+    }
 }

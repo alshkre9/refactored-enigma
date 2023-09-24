@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->foreignId("role_id");
+            $table->string("amount")->default(formatPrice(1000));
         });
     }
 

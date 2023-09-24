@@ -12,6 +12,7 @@ class Purchase extends Model
 
     protected  $fillable = [
         "quantity",
+        "price"
     ];
 
     public function user(): BelongsTo

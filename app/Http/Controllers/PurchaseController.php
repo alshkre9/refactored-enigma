@@ -27,10 +27,14 @@ class PurchaseController extends Controller
             }
             $purchase = Purchase::create([
                 "quantity" =>  $value,
+                "price" => $product->price
             ]);
             // add relationship
             $user->purchases()->save($purchase);
             $product->purchases()->save($purchase);
+
+            $product->quantity = $product->quantity - $value;
+            $product->save();
         }        
 
         return redirect()->route("cart")->withoutCookie("cart");

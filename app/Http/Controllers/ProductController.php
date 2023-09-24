@@ -30,11 +30,6 @@ class ProductController extends Controller
         return $filename;
     }
     
-    private function formatPrice(int $number): string
-    {
-        return '$' . number_format($number);
-    }
-    
     public function landing(Request $request): View
     {   
         return view("landing", ["products" => Product::all()]);
@@ -65,7 +60,7 @@ class ProductController extends Controller
 
         $product = Product::create([
             "name" => $request->name,
-            "price" => $this->formatPrice($request->price),
+            "price" => formatPrice($request->price),
             "image" => $this->imageHandler($request),
             "quantity" => $request->quantity,
             "description" => $request->description
@@ -87,7 +82,7 @@ class ProductController extends Controller
 
         $product->update([
             "name" => $request->name,
-            "price" => $this->formatPrice($request->price),
+            "price" => formatPrice($request->price),
             "image" => $this->imageHandler($request),
             "quantity" => $request->quantity,
             "description" => $request->description

@@ -14,6 +14,10 @@
                 quantity: => {{ $product[1] }}
                 price: => {{ $product[0]->price }}
                 description: {{ $product[0]->description }}
+                <form action="/cart/remove/{{ $product[0]->id }}">
+                    @csrf
+                    <button>remove</button>
+                </form>
         </pre>
     @endforeach
     <form action="/cart/purchase/" method="post">
