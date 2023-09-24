@@ -24,7 +24,7 @@
     </form>
     <form action="/cart/store/{{$id}}" method="POST">
         @csrf
-        <input type="text" value="10" name="quantity">
+        <input type="number" value="10" name="quantity" min="1" max="{{ $max }}">
         <button type="submit">add to cart</button>
     </form>
 </body>

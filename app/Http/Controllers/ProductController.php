@@ -45,7 +45,8 @@ class ProductController extends Controller
             "price" => $product->price,
             "image" => asset($image),
             "quantity" => $product->quantity,
-            "description" => $product->description
+            "description" => $product->description,
+            "max" => $product->quantity
         ]);
     }
     
