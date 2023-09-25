@@ -36,6 +36,7 @@ class ProductController extends Controller
             "image" => asset($image),
             "quantity" => $product->quantity,
             "description" => $product->description,
+            "role" => User::find(Auth::id())->role->name,
             "max" => $product->quantity
         ]);
     }

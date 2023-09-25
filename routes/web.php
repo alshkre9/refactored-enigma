@@ -35,7 +35,8 @@ Route::middleware(["auth"])->group( function () {
     Route::get("/", [ProductController::class, "landing"])->name("home");
     
     Route::prefix("/products/")->group( function () {
-        Route::get("show/{product}", [ProductController::class, "show"])->name("product");
+        Route::get("{product}", [ProductController::class, "show"])->name("product");
+        Route::post("store/{product}", [CartController::class, "store"])->name("product.buy");
     });
     
     Route::prefix("/cart/")->group( function ()
@@ -43,7 +44,6 @@ Route::middleware(["auth"])->group( function () {
         Route::post("purchase/", [PurchaseController::class, "store"]);
 
         Route::get("", [CartController::class, "show"])->name("cart");
-        Route::post("store/{product}", [CartController::class, "store"]);
         
         Route::get("remove/{product}", [CartController::class, "remove"]);
         Route::get("delete/", [CartController::class, "delete"]);
@@ -57,7 +57,7 @@ Route::middleware(["auth"])->group( function () {
     
     Route::prefix("/products/")->group( function () {
         Route::get("update/{product}", [ProductController::class, "updateView"]);
-        Route::put("update/{product}", [ProductController::class, "update"]);
+        Route::put("update/{product}", [ProductController::class, "update"])->name("product.update");
     
         Route::get("store/", [ProductController::class, "storeView"]);
         Route::post("store/", [ProductController::class, "store"]);
