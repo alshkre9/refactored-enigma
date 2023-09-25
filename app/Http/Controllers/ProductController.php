@@ -7,6 +7,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -18,18 +20,6 @@ class ProductController extends Controller
         "description" => ["Required", "String", "max:255"]
     ];
 
-    /**
-     * store image in a directory and return filename to store
-     */
-    private function imageHandler(Request $request): string
-    {
-        $filename = $request->name;
-        $extension = pathinfo($request->image->getClientOriginalName(), PATHINFO_EXTENSION);
-        $filename = str_replace(["_", " "], "-", trim($filename)) . "." . $extension;
-        $request->image->storeAs("public", $filename);
-        return $filename;
-    }
-    
     public function landing(Request $request): View
     {   
         return view("landing", ["products" => Product::all()]);
@@ -62,7 +52,7 @@ class ProductController extends Controller
         $product = Product::create([
             "name" => $request->name,
             "price" => formatPrice($request->price),
-            "image" => $this->imageHandler($request),
+            "image" => imageHandler($request),
             "quantity" => $request->quantity,
             "description" => $request->description
         ]);
@@ -84,7 +74,7 @@ class ProductController extends Controller
         $product->update([
             "name" => $request->name,
             "price" => formatPrice($request->price),
-            "image" => $this->imageHandler($request),
+            "image" => imageHandler($request),
             "quantity" => $request->quantity,
             "description" => $request->description
         ]);
