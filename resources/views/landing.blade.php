@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<x-app-layout>
     @foreach ($products as $product)
     <pre>
         id: {{$product->id}}
@@ -13,8 +6,7 @@
         image: {{$product->image}}
         quantity: {{$product->quantity}}
         description: {{$product->description}}
-        <a href="products/show/{{$product->id}}">{{$product->name}}</a>
+        <a href="{{ route("product.show", ["product" => $product->id ]) }}">{{$product->name}}</a>
     </pre>
     @endforeach
-</body>
-</html>
+</x-app-layout>

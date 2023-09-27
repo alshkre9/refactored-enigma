@@ -30,14 +30,9 @@ class ProductController extends Controller
         $image = Storage::url($product->image);
 
         return view("product.show", [
-            "id" => $product->id,
-            "name" => $product->name, 
-            "price" => $product->price,
+            "product" => $product,
             "image" => asset($image),
-            "quantity" => $product->quantity,
-            "description" => $product->description,
             "role" => User::find(Auth::id())->role->name,
-            "max" => $product->quantity
         ]);
     }
     

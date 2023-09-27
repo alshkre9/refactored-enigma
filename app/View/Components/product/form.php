@@ -5,6 +5,7 @@ namespace App\View\Components\product;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Models\Product;
 
 class form extends Component
 {
@@ -12,7 +13,8 @@ class form extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $role
+        public string $role,
+        public Product $product
     )
     {}
 
