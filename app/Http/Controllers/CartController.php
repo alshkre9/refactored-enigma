@@ -36,13 +36,14 @@ class CartController extends Controller
         $cart[$product->id] = $request->quantity;
         $cart = json_encode($cart);
         $cookie = new Cookie("cart", $cart);
-        return response("cookies was set")->cookie($cookie);
+
+        return redirect()->route("cart.show")->cookie($cookie);
     }
 
     public function delete(Request $request)
     {
         // Cookie::expire('cart');
-        return response("cookies was deleted")->withoutCookie("cart");
+        return redirect()->route("cart.show")->withoutCookie("cart");
     }
 
     public function remove(Request $request, Product $product)

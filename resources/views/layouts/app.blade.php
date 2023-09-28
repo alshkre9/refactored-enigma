@@ -15,7 +15,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', "resources/js/main.js"])
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

@@ -36,14 +36,14 @@ Route::middleware(["auth"])->group( function () {
     
     Route::prefix("/products/")->group( function () {
         Route::get("{product}", [ProductController::class, "show"])->name("product.show");
-        Route::post("store/{product}", [CartController::class, "store"])->name("product.buy");
     });
     
     Route::prefix("/cart/")->group( function ()
     {
         Route::post("purchase/", [PurchaseController::class, "store"]);
+        Route::post("store/{product}", [CartController::class, "store"])->name("cart.add");
 
-        Route::get("", [CartController::class, "show"])->name("cart");
+        Route::get("", [CartController::class, "show"])->name("cart.show");
         
         Route::get("remove/{product}", [CartController::class, "remove"]);
         Route::get("delete/", [CartController::class, "delete"]);
