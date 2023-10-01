@@ -20,6 +20,13 @@ class ProductController extends Controller
         "description" => ["Required", "String", "max:255"]
     ];
 
+    private array $validation_update = [
+        "name" => ["Required", "String", "max:255"],
+        "price" => ["Required", "Integer", "min:0"],
+        "quantity" => ["Required", "Integer", "min:0"],
+        "description" => ["Required", "String", "max:255"]
+    ];
+
     public function landing(Request $request): View
     {   
         return view("landing", ["products" => Product::all()]);
