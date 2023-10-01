@@ -1,12 +1,7 @@
 <x-app-layout>
-    @foreach ($products as $product)
-    <pre>
-        id: {{$product->id}}
-        name: {{$product->name}}
-        image: {{$product->image}}
-        quantity: {{$product->quantity}}
-        description: {{$product->description}}
-        <a href="{{ route("product.show", ["product" => $product->id ]) }}">{{$product->name}}</a>
-    </pre>
-    @endforeach
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        @foreach ($products as $product)
+            <x-product.card :product="$product"/>
+        @endforeach
+    </div>
 </x-app-layout>

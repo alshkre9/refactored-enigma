@@ -1,1 +1,1 @@
-<img src="{{ $image }}" alt="">
+<img src="{{ $image }}" alt="" class="rounded">

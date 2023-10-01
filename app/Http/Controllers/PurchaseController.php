@@ -43,6 +43,6 @@ class PurchaseController extends Controller
             $product->save();
         }        
 
-        return redirect()->route("cart")->withoutCookie("cart");
+        return redirect()->route("cart.show")->withoutCookie("cart");
     }
 }

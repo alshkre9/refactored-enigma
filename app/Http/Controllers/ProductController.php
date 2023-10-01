@@ -32,19 +32,26 @@ class ProductController extends Controller
         return view("product.show", [
             "product" => $product,
             "image" => asset($image),
-            "role" => User::find(Auth::id())->role->name,
+            "type" => "updat",
         ]);
     }
     
     public function storeView(Request $request): View
     {
-        return view("product.store");
+        return view("product.store", ["error" => session("error") ?? []]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $request->validate($this->validation);
 
+        $pro = Product::where("name", "=", $request->name)->first();
+
+        if ($pro !== null)
+        {
+            return redirect()->route("product.store")->with("error", ["the name is used"]);
+        }
+        
         $product = Product::create([
             "name" => $request->name,
             "price" => formatPrice($request->price),
@@ -55,29 +62,24 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route("product", ["product" => $product->id]);
+        return redirect()->route("product.show", ["product" => $product->id]);
     }
     
-    public function updateView(Request $request, Product $product): View
-    {
-        return view("product.update", ["product" => $product->id]);
-    }
 
     public function update(Request $request, Product $product)
     {
-        $request->validate($this->validation);
+        $request->validate($this->validation_update);
 
         $product->update([
             "name" => $request->name,
             "price" => formatPrice($request->price),
-            "image" => imageHandler($request),
             "quantity" => $request->quantity,
             "description" => $request->description
         ]);
 
         $product->save();
 
-        return redirect()->route("product", ["product" => $product->id]);
+        return redirect()->route("product.show", ["product" => $product->id]);
     }
 
     public function delete(Request $request, Product $product): RedirectResponse

@@ -13,8 +13,8 @@ class form extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $role,
-        public Product $product
+        public Product $product,
+        public string $type
     )
     {}
 

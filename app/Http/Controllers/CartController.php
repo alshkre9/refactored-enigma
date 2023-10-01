@@ -51,6 +51,6 @@ class CartController extends Controller
         $cart = json_decode($request->cookie("cart"), true);
         unset($cart[$product->id]);
         $cookie = new Cookie("cart", json_encode($cart));
-        return redirect()->route("cart")->withCookie($cookie);
+        return redirect()->route("cart.show")->withCookie($cookie);
     }
 }
