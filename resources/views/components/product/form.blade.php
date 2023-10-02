@@ -1,6 +1,6 @@
 @if ($type === "update")
 
-    <div class="mb-10 text-center md:text-left">
+    <div class="w-full mb-10 text-center md:text-left">
         <a href="#" class="block text-primary uppercase mb-3 text-xs font-bold tracking-wider">sneaker company</a>
         <h2 id="n" class="text-dark-blue text-4xl md:text-5xl break-normal capitalize font-sans font-bold mb-8" contenteditable="true">{{ $product->name }}</h2>
         <p  id="d"class="text-dark-grayish-blue break-all mb-6" contenteditable="true">{{ $product->description }}</p>
@@ -23,7 +23,7 @@
     </form>
 
 @else
-    <div class="mb-10 text-center md:text-left">
+    <div class="w-full mb-10 text-center md:text-left">
         <a href="#" class="block text-primary uppercase mb-3 text-xs font-bold tracking-wider">sneaker company</a>
         <h2 class="text-dark-blue text-4xl md:text-5xl capitalize font-sans font-bold mb-8">{{ $product->name }}</h2>
         <p class="text-dark-grayish-blue mb-6">{{ $product->description }}</p>

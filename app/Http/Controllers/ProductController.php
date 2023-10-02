@@ -29,7 +29,7 @@ class ProductController extends Controller
 
     public function landing(Request $request): View
     {   
-        return view("landing", ["products" => Product::all()]);
+        return view("landing", ["products" => Product::all(), "role" => "admin"]);
     }
     
     public function show(Request $request, Product $product): View
@@ -45,7 +45,7 @@ class ProductController extends Controller
     
     public function storeView(Request $request): View
     {
-        return view("product.store", ["error" => session("error") ?? []]);
+        return view("product.store", ["error" => session("error") ?? [], "type" => "store"]);
     }
 
     public function store(Request $request): RedirectResponse
