@@ -54,11 +54,14 @@ Route::middleware(["auth"])->group( function () {
 });
 
 // admin routes
+// use isAdmin middleware
 Route::middleware(["auth"])->group( function () {    
     
+    Route::post("/image/upload/", [ProductController::class, "storeImage"]);
     Route::prefix("/products/")->group( function () {
         Route::post("store/", [ProductController::class, "store"])->name("product.store");
         
+        Route::get("update/{product}", [ProductController::class, "updateView"])->name("product.update.view");
         Route::post("update/{product}", [ProductController::class, "update"])->name("product.update");
     
         Route::delete("delete/{product}", [ProductController::class, "delete"]);

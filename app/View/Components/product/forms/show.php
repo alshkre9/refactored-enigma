@@ -1,19 +1,19 @@
 <?php
 
-namespace App\View\Components\product;
+namespace App\View\Components\product\forms;
 
+use App\Models\Product;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class product extends Component
+class show extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public \App\Models\Product $product,
-        public string $type,
+        public Product $product
     )
     {
         //
@@ -24,6 +24,6 @@ class product extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.product.product');
+        return view('components.product.forms.show');
     }
 }

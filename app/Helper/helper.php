@@ -16,12 +16,22 @@ function getPrice(string $price): int
 
 function imageHandler(Request $request): string
 {
-    $filename = $request->name;
+    // $filename = $request->name;
+    $filename = "this is ajax image";
     $extension = pathinfo($request->image->getClientOriginalName(), PATHINFO_EXTENSION);
     $filename = str_replace(["_", " "], "-", trim($filename)) . "." . $extension;
 
     // store the image
-    $img = Image::make($request->file("image")->getRealPath())->crop(512, 512)->save($filename, 100);
+    $img = Image::make($request->file("image")->getRealPath());
+    if ($img->getWidth() > $img->getHeight())
+    {
+        $img->crop($img->getWidth(), $img->getWidth());
+    }
+    else if ($img->getWidth() < $img->getHeight())
+    {
+        $img->crop($img->getHeight(), $img->getHeight());
+    }
+    $img->resize(512, 512)->save($filename, 100);
     Storage::put("public/" . $filename, $img);
 
     return $filename;

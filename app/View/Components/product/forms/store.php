@@ -1,28 +1,28 @@
 <?php
 
-namespace App\View\Components\product;
+
+namespace App\View\Components\product\forms;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\Product;
 
-class form extends Component
+class store extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public Product $product,
-        public string $type
     )
-    {}
+    {
+        //
+    }
 
     /**
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string
     {
-        return view('components.product.form');
+        return view('components.product.forms.store');
     }
 }

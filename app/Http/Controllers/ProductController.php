@@ -38,8 +38,7 @@ class ProductController extends Controller
 
         return view("product.show", [
             "product" => $product,
-            "image" => asset($image),
-            "type" => "updat",
+            "type" => "show",
         ]);
     }
     
@@ -72,6 +71,10 @@ class ProductController extends Controller
         return redirect()->route("product.show", ["product" => $product->id]);
     }
     
+    public function updateView(Request $request, Product $product): View
+    {
+        return view("product.update", ["product" => $product, "type" => "update"]);
+    }
 
     public function update(Request $request, Product $product)
     {
@@ -95,5 +98,10 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route("home");
+    }
+
+    public function storeImage(Request $request)
+    {
+        return asset(Storage::url(imageHandler($request)));
     }
 }
