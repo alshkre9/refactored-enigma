@@ -1,8 +1,12 @@
+// const { document } = require("postcss");
 window.onload = function () {
 
     var max = document.getElementById("max");
     const quantity = document.getElementById("quantity");
     const q = document.getElementById("q");
+    var img = document.getElementById("img");
+    var image = document.getElementById("image");
+    var product = document.getElementById("product");
 
     if (max)
     {
@@ -29,24 +33,30 @@ window.onload = function () {
             q.value = counter.value;
         });
 
+    }
+    
+    // upload image
+    if (document.getElementById("upload-image"))
+    {
         document.getElementById("upload-image").addEventListener("click", function () {
-            if (document.getElementById("image").files[0])
+            if (document.getElementById("file").files[0])
             {
-                var image = document.getElementById("image").files[0];
-    
-                var afs = new AjaxFormSubmitter({"image": image}, "POST", "/image/upload/");
-                afs.send()
+                var file = document.getElementById("file").files[0];
+                var product_id = product.value 
+                var ajax = new AjaxFormSubmitter({"image": file}, "POST", "/image/upload/" + product_id);
+                ajax.onReadyResponse((xhr) => {
 
-                afs.onReadyResponse((xhr) => {
-                    document.getElementById("img").src = xhr.responseText;
+                    img.src = img.src + "?" + String(performance.now());
+                    image.value = xhr.responseText;
+        
                 });
-    
+
+                ajax.send()
             }
         });
     }
-    
-    // submit update or store form
 
+    // submit update or store form
     if (document.getElementById("theForm"))
     {
 

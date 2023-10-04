@@ -15,14 +15,7 @@ class ProductController extends Controller
     private array $validation = [
         "name" => ["Required", "String", "max:255"],
         "price" => ["Required", "Integer", "min:0"],
-        "image" => ["Required", "Image"],
-        "quantity" => ["Required", "Integer", "min:0"],
-        "description" => ["Required", "String", "max:255"]
-    ];
-
-    private array $validation_update = [
-        "name" => ["Required", "String", "max:255"],
-        "price" => ["Required", "Integer", "min:0"],
+        "image" => ["Required", "String", "max:255"],
         "quantity" => ["Required", "Integer", "min:0"],
         "description" => ["Required", "String", "max:255"]
     ];
@@ -61,7 +54,7 @@ class ProductController extends Controller
         $product = Product::create([
             "name" => $request->name,
             "price" => formatPrice($request->price),
-            "image" => imageHandler($request),
+            "image" => $request->name,
             "quantity" => $request->quantity,
             "description" => $request->description
         ]);
@@ -78,17 +71,17 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $request->validate($this->validation_update);
+        $request->validate($this->validation);
 
         $product->update([
             "name" => $request->name,
+            "image" => $request->image,
             "price" => formatPrice($request->price),
             "quantity" => $request->quantity,
             "description" => $request->description
         ]);
 
-        $product->save();
-
+        
         return redirect()->route("product.show", ["product" => $product->id]);
     }
 
@@ -98,10 +91,5 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route("home");
-    }
-
-    public function storeImage(Request $request)
-    {
-        return asset(Storage::url(imageHandler($request)));
     }
 }

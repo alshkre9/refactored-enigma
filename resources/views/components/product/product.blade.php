@@ -14,11 +14,12 @@
         
                     @if (!($type === "show"))
                         <div class="flex flex-col items-center pt-4 mb-6">
-                            <input type="file" id="image" name="image" class="mb-2 w-[200px]">
+                            <input type="file" id="file" name="file" class="mb-2 w-[200px]">
                             @if ($type === "update")
                                 <button type="button" id="upload-image" class="bg-green-500 w-fit hover:bg-green-600 text-white rounded py-2 px-3">change image</button>
-                            @else 
-                                <button type="button" id="upload-image" class="bg-green-500 w-fit hover:bg-green-600 text-white rounded py-2 px-3">change image</button>
+                            @endif
+                            @if ($type === "store")
+                                <button type="button" id="upload-image" class="bg-green-500 w-fit hover:bg-green-600 text-white rounded py-2 px-3">upload image</button>
                             @endif
                         </div>
                     @endif

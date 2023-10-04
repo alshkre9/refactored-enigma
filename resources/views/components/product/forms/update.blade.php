@@ -6,8 +6,9 @@
 </div>
 
 
-<form action="{{ route('product.update', ['product' => $product->id]) }}" id="update" method="POST" class="w-full">
+<form action="{{ route('product.update', ['product' => $product->id]) }}" id="theForm" method="POST" class="w-full">
     @csrf
+    <input type="hidden" value="{{ $product->image }}" id="image" name="image">
     <input type="hidden" value="" id="max">
     <input type="hidden" id="name" name="name" value="">
     <input type="hidden" id="description" name="description" value="">
@@ -16,6 +17,6 @@
     <p>quantity: {{ $product->quantity }}</p>
     <div class="flex w-full flex-col items-center md:justify-between md:flex-row">
         <x-counter/>
-        <button class="bg-primary text-white rounded py-2 px-4 w-full" type="submit">Update</button>
+        <button class="bg-primary text-white rounded py-2 px-4 w-full" type="submit">Save</button>
     </div>
 </form>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
@@ -57,7 +58,7 @@ Route::middleware(["auth"])->group( function () {
 // use isAdmin middleware
 Route::middleware(["auth"])->group( function () {    
     
-    Route::post("/image/upload/", [ProductController::class, "storeImage"]);
+    Route::post("/image/upload/{product?}", ImageController::class);
     Route::prefix("/products/")->group( function () {
         Route::post("store/", [ProductController::class, "store"])->name("product.store");
         
