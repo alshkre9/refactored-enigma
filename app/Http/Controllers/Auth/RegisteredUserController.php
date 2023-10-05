@@ -21,7 +21,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.register', [
+            "roles" => Role::all()
+        ]);
     }
 
     /**
@@ -35,9 +37,15 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', "string"]
         ]);
 
-        $role = Role::firstOrCreate(["name" => "user"]);
+        $role = Role::where("name", "=", $request->role)->first();
+
+        if ($role === null)
+        {
+            return redirect()->route("register");
+        }
 
         $user = $role->users()->create([
             'name' => $request->name,
