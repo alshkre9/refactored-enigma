@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,10 +20,14 @@ class ProductController extends Controller
         "quantity" => ["Required", "Integer", "min:0"],
         "description" => ["Required", "String", "max:255"]
     ];
-
+    
+    // views
     public function landing(Request $request): View
     {   
-        return view("landing", ["products" => Product::all(), "role" => "admin"]);
+        return view("landing", [
+            "products" => Product::all(),
+            "role" => User::find(Auth::id())->role->name
+        ]);
     }
     
     public function show(Request $request, Product $product): View
@@ -32,15 +37,30 @@ class ProductController extends Controller
         return view("product.show", [
             "product" => $product,
             "type" => "show",
+            "role" => User::find(Auth::id())->role->name
         ]);
     }
-    
-    public function storeView(Request $request): View
+
+    public function updateView(Request $request, Product $product): View
     {
-        return view("product.store", ["error" => session("error") ?? [], "type" => "store"]);
+        return view("product.update", [
+            "product" => $product,
+            "type" => "update",
+            "role" => User::find(Auth::id())->role->name
+        ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function storeView(Request $request): View
+    {
+        return view("product.store", [
+            "error" => session("error") ?? [],
+            "type" => "store",
+            "role" => User::find(Auth::id())->name
+        ]);
+    }
+
+    // 
+    public function store(Request $request)
     {
         $request->validate($this->validation);
 
@@ -51,22 +71,20 @@ class ProductController extends Controller
             return redirect()->route("product.store")->with("error", ["the name is used"]);
         }
         
+        $image = Image::where("name", "=", $request->image)->first();
+        
         $product = Product::create([
             "name" => $request->name,
             "price" => formatPrice($request->price),
-            "image" => $request->name,
             "quantity" => $request->quantity,
             "description" => $request->description
         ]);
 
+        $product->images()->save($image);
+
         $product->save();
 
         return redirect()->route("product.show", ["product" => $product->id]);
-    }
-    
-    public function updateView(Request $request, Product $product): View
-    {
-        return view("product.update", ["product" => $product, "type" => "update"]);
     }
 
     public function update(Request $request, Product $product)
@@ -75,12 +93,14 @@ class ProductController extends Controller
 
         $product->update([
             "name" => $request->name,
-            "image" => $request->image,
             "price" => formatPrice($request->price),
             "quantity" => $request->quantity,
             "description" => $request->description
         ]);
 
+        $product->images()->first()->delete();
+        $image = Image::where("name", "=", $request->image)->first();
+        $product->images()->save($image);
         
         return redirect()->route("product.show", ["product" => $product->id]);
     }

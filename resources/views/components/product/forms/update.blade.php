@@ -9,11 +9,14 @@
 <form action="{{ route('product.update', ['product' => $product->id]) }}" id="theForm" method="POST" class="w-full">
     @csrf
     <input type="hidden" value="{{ $product->image }}" id="image" name="image">
-    <input type="hidden" value="" id="max">
+
     <input type="hidden" id="name" name="name" value="">
     <input type="hidden" id="description" name="description" value="">
     <input type="hidden" id="price" name="price" value="">
+    
+    <input type="hidden" value="" id="max">
     <input type="hidden" value="{{ $product->quantity }}" id="q" name="quantity">
+    
     <p>quantity: {{ $product->quantity }}</p>
     <div class="flex w-full flex-col items-center md:justify-between md:flex-row">
         <x-counter/>

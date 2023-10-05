@@ -6,7 +6,6 @@ window.onload = function () {
     const q = document.getElementById("q");
     var img = document.getElementById("img");
     var image = document.getElementById("image");
-    var product = document.getElementById("product");
 
     if (max)
     {
@@ -42,12 +41,12 @@ window.onload = function () {
             if (document.getElementById("file").files[0])
             {
                 var file = document.getElementById("file").files[0];
-                var product_id = product.value 
-                var ajax = new AjaxFormSubmitter({"image": file}, "POST", "/image/upload/" + product_id);
+                var ajax = new AjaxFormSubmitter({"image": file}, "POST", "/image/upload/");
                 ajax.onReadyResponse((xhr) => {
 
-                    img.src = img.src + "?" + String(performance.now());
-                    image.value = xhr.responseText;
+                    let result = JSON.parse(xhr.response);
+                    img.src = result["path"];
+                    image.value = result["filename"];
         
                 });
 

@@ -13,7 +13,7 @@ class ImageController extends Controller
         "image" => ["Required", "Image"]
     ];
     
-    public function __invoke(Request $request): string
+    public function __invoke(Request $request)
     {
         $request->validate($this->validation);
 
@@ -41,6 +41,6 @@ class ImageController extends Controller
 
         $image->name = $filename;
         $image->save();
-        return $filename;
+        return response()->json(["filename" => $filename, "path" => asset(Storage::url($filename))]);
     }
 }

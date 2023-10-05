@@ -14,6 +14,7 @@ class product extends Component
     public function __construct(
         public \App\Models\Product $product,
         public string $type,
+        public string $role,
     )
     {
         //

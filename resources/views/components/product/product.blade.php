@@ -1,4 +1,14 @@
 <x-app-layout>
+    @if ($role === "admin")
+        <div class="mb-4 border-b py-2">
+            @if ($type === "update")
+                <a href="{{ route("product.show", ["product" => $product->id ])}}" class="py-2 px-3 bg-primary text-white rounded">show</a>
+            @endif
+            @if ($type === "show")
+                <a href="{{ route("product.update", ["product" => $product->id ])}}" class="py-2 px-3 bg-green-500 hover:bg-green-500 text-white rounded">update</a>
+            @endif
+        </div>
+    @endif
     <div class="mt-14">
         <div class="flex flex-col sm:flex-col md:flex-row justify-between">
             <div class="w-full h-fit md:pr-12">
@@ -6,8 +16,8 @@
                 {{-- product image --}}
                 <div class="flex flex-col justify-center items-center h-full">
         
-                    @if(isset($product->image))
-                        <img src="{{ asset(Storage::url($product->image)) }}" id="img" alt="">
+                    @if($product->images()->first())
+                        <img src="{{ asset(Storage::url($product->images()->first()->name)) }}" id="img" alt="">
                     @else
                         <img src="{{ asset(Storage::url('default.jpg'))}}" id="img" class="mb-4" alt="">
                     @endif

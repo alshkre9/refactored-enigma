@@ -33,39 +33,42 @@ require __DIR__.'/auth.php';
 
 // user routes
 Route::middleware(["auth"])->group( function () {
+
     Route::get("/", [ProductController::class, "landing"])->name("home");
     
     Route::prefix("/products/")->group( function () {
-        Route::get("store/", [ProductController::class, "storeView"])->name("product.store.view");
         Route::get("show/{product}", [ProductController::class, "show"])->name("product.show");
+        Route::post("cart/add/{product}", [CartController::class, "store"])->name("cart.add");
     });
     
     Route::prefix("/cart/")->group( function ()
     {
-        Route::post("purchase/", [PurchaseController::class, "store"]);
-        Route::post("store/{product}", [CartController::class, "store"])->name("cart.add");
-
         Route::get("", [CartController::class, "show"])->name("cart.show");
-        
+
+        Route::post("purchase/", [PurchaseController::class, "store"]);
+    
         Route::get("remove/{product}", [CartController::class, "remove"]);
         Route::get("delete/", [CartController::class, "delete"]);
     });
-
+    
 
 });
 
 // admin routes
 // use isAdmin middleware
-Route::middleware(["auth"])->group( function () {    
+Route::middleware(["auth", "isAdmin"])->group( function () {    
     
-    Route::post("/image/upload/{product?}", ImageController::class);
+    Route::post("/image/upload/", ImageController::class);
+    
     Route::prefix("/products/")->group( function () {
+
+        Route::get("store/", [ProductController::class, "storeView"])->name("product.store.view");
         Route::post("store/", [ProductController::class, "store"])->name("product.store");
         
         Route::get("update/{product}", [ProductController::class, "updateView"])->name("product.update.view");
         Route::post("update/{product}", [ProductController::class, "update"])->name("product.update");
-    
-        Route::delete("delete/{product}", [ProductController::class, "delete"]);
+        
+        Route::delete("delete/{product}", [ProductController::class, "delete"])->name("product.delete");
     });
 
 });

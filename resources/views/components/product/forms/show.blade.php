@@ -12,6 +12,6 @@
 
     <x-counter/>
     <input type="hidden" id="max" value="{{ $product->quantity }}">
-    <input type="hidden" value="1" id="q"  name="q">
+    <input type="hidden" value="1" id="q"  name="quantity">
     <button class="bg-primary text-white rounded py-2 px-4 w-full">Add to cart</button>
 </form>

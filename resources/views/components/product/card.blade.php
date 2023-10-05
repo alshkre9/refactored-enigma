@@ -1,6 +1,6 @@
 <div class="text-center shadow-lg">
     <div class="">
-        <img src="{{ asset(Storage::url($product->image) )}}" class="w-full h-full rounded object-cover" alt="">
+        <img src="{{ asset(Storage::url($product->images()->first()->name)) }}" class="w-full h-full rounded object-cover" alt="">
     </div>
     <div class="p-4 pt-2">
         <h4 class="mb-2">{{ $product->name }}</h4>

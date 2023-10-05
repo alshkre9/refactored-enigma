@@ -1,1 +1,1 @@
-<x-product.product :product="$product" :type="$type"/>
+<x-product.product :product="$product" :type="$type" :role="$role"/>

@@ -8,11 +8,15 @@
 
 <form action="{{ route('product.store') }}" id="theForm" method="POST" class="w-full">
     @csrf
-    <input type="hidden" value="" id="max">
+    <input type="hidden" value="" id="image" name="image">
+
     <input type="hidden" id="name" name="name" value="">
     <input type="hidden" id="description" name="description" value="">
     <input type="hidden" id="price" name="price" value="">
+
+    <input type="hidden" value="" id="max">
     <input type="hidden" value="" id="q" name="quantity">
+    
     <div class="flex w-full flex-col items-center md:justify-between md:flex-row">
         <x-counter/>
         <button class="bg-primary text-white rounded py-2 px-4 w-full" type="submit">Store</button>
