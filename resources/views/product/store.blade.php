@@ -1,10 +1,5 @@
 <x-app-layout>
 
-    <div class="mb-4 border-b py-2">
-        <a href="{{ route("product.show", ["product" => $product->id ])}}" class="py-2 px-3 bg-primary text-white rounded">show</a>
-        <a href="{{ route("product.update", ["product" => $product->id ])}}" class="py-2 px-3 bg-green-500 hover:bg-green-600 text-white rounded">update</a>
-    </div>
-    
     <div class="mt-14">
         <div class="flex flex-col sm:flex-col md:flex-row justify-between">
 

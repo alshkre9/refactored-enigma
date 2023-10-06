@@ -28,7 +28,6 @@ class ProductController extends Controller
 
         return view("product.show", [
             "product" => $product,
-            "type" => "show",
             "role" => User::find(Auth::id())->role->name
         ]);
     }
@@ -44,8 +43,6 @@ class ProductController extends Controller
     public function storeView(Request $request): View
     {
         return view("product.store", [
-            "error" => session("error") ?? [],
-            "type" => "store",
             "role" => User::find(Auth::id())->name
         ]);
     }
