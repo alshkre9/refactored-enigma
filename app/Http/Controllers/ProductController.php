@@ -22,14 +22,6 @@ class ProductController extends Controller
     ];
     
     // views
-    public function landing(Request $request): View
-    {   
-        return view("landing", [
-            "products" => Product::all(),
-            "role" => User::find(Auth::id())->role->name
-        ]);
-    }
-    
     public function show(Request $request, Product $product): View
     {
         $image = Storage::url($product->image);
@@ -45,7 +37,6 @@ class ProductController extends Controller
     {
         return view("product.update", [
             "product" => $product,
-            "type" => "update",
             "role" => User::find(Auth::id())->role->name
         ]);
     }

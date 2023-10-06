@@ -15,21 +15,20 @@ window.onload = function () {
             max = Number.MAX_SAFE_INTEGER;
         }
 
-        var counter = new Counter(parseInt(max));  
-        quantity.innerText = counter.value;
+        var counter = new Counter(parseInt(max), parseInt(quantity.value));  
 
         document.getElementById("add").addEventListener("click", function() {
             counter.add()
 
-            quantity.innerText = counter.value;
-            q.value = counter.value;
+            quantity.value = counter.value;
+            q.innerText = counter.value;
         });
         
         document.getElementById("remove").addEventListener("click", function() {
             counter.remove() 
     
-            quantity.innerText = counter.value;
-            q.value = counter.value;
+            quantity.value = counter.value;
+            q.innerText = counter.value;
         });
 
     }

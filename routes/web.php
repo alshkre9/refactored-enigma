@@ -66,7 +66,7 @@ Route::middleware(["auth", "isAdmin"])->group( function () {
         Route::post("store/", [ProductController::class, "store"])->name("product.store");
         
         Route::get("update/{product}", [ProductController::class, "updateView"])->name("product.update.view");
-        Route::post("update/{product}", [ProductController::class, "update"])->name("product.update");
+        Route::put("update/{product}", [ProductController::class, "update"])->name("product.update");
         
         Route::delete("delete/{product}", [ProductController::class, "delete"])->name("product.delete");
     });
