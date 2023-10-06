@@ -5,6 +5,9 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,35 +35,16 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 // user routes
-Route::middleware(["auth"])->group( function () {
+Route::middleware("auth")->group( function () {
 
-    Route::get("/", [ProductController::class, "landing"])->name("home");
+    Route::get("/", function() {
+        return view("landing", ["products" => Product::all(), "role" => User::find(Auth::id())->role->name]);
+    })->name("home");
     
-    Route::prefix("/products/")->group( function () {
-        Route::get("show/{product}", [ProductController::class, "show"])->name("product.show");
-        Route::post("cart/add/{product}", [CartController::class, "store"])->name("cart.add");
-    });
+    Route::middleware(["auth", "isAdmin"])->post("/image/upload/", ImageController::class);
     
-    Route::prefix("/cart/")->group( function ()
-    {
-        Route::get("", [CartController::class, "show"])->name("cart.show");
-
-        Route::post("purchase/", [PurchaseController::class, "store"]);
-    
-        Route::get("remove/{product}", [CartController::class, "remove"]);
-        Route::get("delete/", [CartController::class, "delete"]);
-    });
-    
-
-});
-
-// admin routes
-// use isAdmin middleware
-Route::middleware(["auth", "isAdmin"])->group( function () {    
-    
-    Route::post("/image/upload/", ImageController::class);
-    
-    Route::prefix("/products/")->group( function () {
+    Route::middleware("isAdmin")->prefix("/products/")->group( function () {
+        Route::get("show/{product}", [ProductController::class, "show"])->withoutMiddleware("isAdmin")->name("product.show");
 
         Route::get("store/", [ProductController::class, "storeView"])->name("product.store.view");
         Route::post("store/", [ProductController::class, "store"])->name("product.store");
@@ -69,6 +53,19 @@ Route::middleware(["auth", "isAdmin"])->group( function () {
         Route::put("update/{product}", [ProductController::class, "update"])->name("product.update");
         
         Route::delete("delete/{product}", [ProductController::class, "delete"])->name("product.delete");
+    });
+    
+    Route::prefix("/cart/")->group( function ()
+    {
+        Route::get("", [CartController::class, "show"])->name("cart.show");
+
+        Route::post("add/{product}", [CartController::class, "store"])->name("cart.add");
+        Route::get("remove/{product}", [CartController::class, "remove"]);
+        Route::get("delete/", [CartController::class, "delete"]);
+    });
+    
+    Route::prefix("/purchase/")->group( function () {
+        Route::post("", [PurchaseController::class, "store"]);
     });
 
 });
