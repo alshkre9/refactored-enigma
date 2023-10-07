@@ -32,8 +32,14 @@ class ProductController extends Controller
         ]);
     }
 
-    public function updateView(Request $request, Product $product): View
+    public function updateView(Request $request, Product $product)
     {
+        $images = Image::all()->whereNull("product_id");
+        foreach ($images as $image)
+        {
+            Storage::delete("public/" . $image->name);
+            $image->delete();
+        }
         return view("product.update", [
             "product" => $product,
         ]);
