@@ -1,11 +1,6 @@
 <x-app-layout>
 
-        <div class="mb-4 border-b py-2">
-                <a href="{{ route("product.show", ["product" => $product->id ])}}" class="py-2 px-3 bg-primary text-white rounded">show</a>
-                <a href="{{ route("product.update", ["product" => $product->id ])}}" class="py-2 px-3 bg-green-500 hover:bg-green-600 text-white rounded">update</a>
-        </div>
-
-    <div class="mt-14">
+    <div class="mt-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-col md:flex-row justify-between">
 
             <div class="w-full h-fit md:pr-12">  
@@ -14,7 +9,7 @@
 
                         <div class="flex flex-col items-center pt-4 mb-6">
                             <input type="file" id="file" name="file" class="mb-2 w-[200px]">
-                            <button type="button" id="upload-image" class="bg-green-500 w-fit hover:bg-green-600 text-white rounded py-2 px-3">change image</button>
+                            <button type="button" id="upload-image" class="bg-green-500 w-fit hover:bg-green-600 text-white rounded py-2 px-3 uppercase">change image</button>
                         </div>
 
                 </div>
@@ -38,6 +33,9 @@
                     </div>
                 </x-product.forms.update>
 
+                <div class="w-full flex justify-end">
+                    <a href=" {{ route("product.show", ["product" => $product->id]) }}" class="text-dark-grayish-blue underline">show</a>
+                </div>
             </div>
         </div>
 
