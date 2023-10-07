@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="mt-14">
         <div class="flex flex-col sm:flex-col md:flex-row justify-between">
 
@@ -27,7 +26,9 @@
                 <x-product.forms.store>
                     <div class="flex w-full flex-col items-center md:justify-between md:flex-row">
                         <x-counter :quantity="1"/>
-                        <button class="bg-primary text-white rounded py-2 px-4 w-full" type="submit">Save</button>
+                        <x-primary-button class="w-full justify-center">
+                            save
+                        </x-primary-button>
                     </div>
                 </x-product.forms.store>
 

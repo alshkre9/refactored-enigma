@@ -7,7 +7,6 @@ window.onload = function () {
     var img = document.getElementById("img");
     var image = document.getElementById("image");
 
-    console.log(quantity.value)
     if (max)
     {
         // counter logic

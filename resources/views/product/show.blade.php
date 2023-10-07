@@ -28,7 +28,9 @@
                 <x-product.forms.show :product="$product">
                     <div class="flex w-full flex-col items-center md:justify-between md:flex-row">
                         <x-counter :quantity="1"/>
-                        <button class="bg-primary text-white rounded py-2 px-4 w-full" type="submit">Save</button>
+                        <x-primary-button class="w-full justify-center">
+                            add to cart
+                        </x-primary-button>
                     </div>
                 </x-product.forms.show>
 

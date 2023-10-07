@@ -32,7 +32,9 @@
                 <x-product.forms.update :product="$product">
                     <div class="flex w-full flex-col items-center md:justify-between md:flex-row">
                         <x-counter :quantity="$product->quantity"/>
-                        <button class="bg-primary text-white rounded py-2 px-4 w-full" type="submit">Save</button>
+                        <x-primary-button class="w-full justify-center">
+                            save
+                        </x-primary-button>    
                     </div>
                 </x-product.forms.update>
 

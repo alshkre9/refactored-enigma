@@ -36,15 +36,12 @@ class ProductController extends Controller
     {
         return view("product.update", [
             "product" => $product,
-            "role" => User::find(Auth::id())->role->name
         ]);
     }
 
     public function storeView(Request $request): View
     {
-        return view("product.store", [
-            "role" => User::find(Auth::id())->name
-        ]);
+        return view("product.store");
     }
 
     // 
