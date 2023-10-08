@@ -89,16 +89,23 @@ class ProductController extends Controller
             "description" => $request->description
         ]);
 
-        $product->images()->first()->delete();
-        $image = Image::where("name", "=", $request->image)->first();
-        $product->images()->save($image);
+        if ($product->images()->first()->name !== $request->image)
+        {
+            if (Storage::delete("public/" . $product->images()->first()->name))
+            {
+                $product->images()->first()->delete();
+                
+                $image = Image::where("name", "=", $request->image)->first();
+                $product->images()->save($image);
+            }
+        }
         
         return redirect()->route("product.show", ["product" => $product->id]);
     }
 
     public function delete(Request $request, Product $product): RedirectResponse
     {
-        Storage::delete("public/" . $product->image);
+        Storage::delete("public/" . $product->images()->first()->name);
         $product->delete();
 
         return redirect()->route("home");

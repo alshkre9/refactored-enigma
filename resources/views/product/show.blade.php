@@ -30,6 +30,13 @@
                 @if ($role === "admin")
                     <div class="w-full flex justify-end">
                         <a href=" {{ route("product.update", ["product" => $product->id]) }}" class="text-dark-grayish-blue underline">update</a>
+                        <form action="{{ route("product.delete", ["product" => $product->id]) }}" class="ml-4" method="post">
+                            @method("delete")
+                            @csrf
+                            <x-danger-button>
+                                delete
+                            </x-danger-button>
+                        </form>
                     </div>
                 @endif
             </div>

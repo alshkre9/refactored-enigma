@@ -40,16 +40,19 @@ window.onload = function () {
             if (document.getElementById("file").files[0])
             {
                 var file = document.getElementById("file").files[0];
-                var ajax = new AjaxFormSubmitter({"image": file}, "POST", "/image/upload/");
-                ajax.onReadyResponse((xhr) => {
+                if (file)
+                {
+                    var ajax = new AjaxFormSubmitter({"image": file}, "POST", "/image/upload/");
+                    ajax.onReadyResponse((xhr) => {
 
-                    let result = JSON.parse(xhr.response);
-                    img.src = result["path"];
-                    image.value = result["filename"];
-        
-                });
+                        let result = JSON.parse(xhr.response);
+                        img.src = result["path"];
+                        image.value = result["filename"];
+            
+                    });
 
-                ajax.send()
+                    ajax.send()
+                }
             }
         });
     }
