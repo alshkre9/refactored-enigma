@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
@@ -74,6 +75,10 @@ class ProductController extends Controller
         $product->images()->save($image);
 
         $product->save();
+
+        $category = Category::find(1);
+
+        $product->categories()->save($category);
 
         return redirect()->route("product.show", ["product" => $product->id]);
     }
