@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 
 class ProductController extends Controller
 {
@@ -19,8 +20,11 @@ class ProductController extends Controller
         "price" => ["Required", "Integer", "min:0"],
         "image" => ["Required", "String", "max:255"],
         "quantity" => ["Required", "Integer", "min:0"],
-        "description" => ["Required", "String", "max:255"]
+        "description" => ["Required", "String", "max:255"],
+        "category" => ["Required", "String", "max:5"]
     ];
+    
+    private array $categories = ["both", "men", "women"];
     
     // views
     public function show(Request $request, Product $product): View
@@ -56,11 +60,10 @@ class ProductController extends Controller
     {
         $request->validate($this->validation);
 
-        $pro = Product::where("name", "=", $request->name)->first();
-
-        if ($pro !== null)
+        if (Product::where("name", "=", $request->name)->first() ||
+            !in_array($request->category, $this->categories, true))
         {
-            return redirect()->route("product.store")->with("error", ["the name is used"]);
+            return redirect()->route("product.store");
         }
         
         $image = Image::where("name", "=", $request->image)->first();
@@ -76,9 +79,24 @@ class ProductController extends Controller
 
         $product->save();
 
-        $category = Category::find(1);
+        $categories = [];
 
-        $product->categories()->save($category);
+        if ($request->category === "both")
+        {
+            foreach (Category::all() as $category)
+            {
+                $categories[] = $category;
+            }
+        }
+        else
+        {
+            $categories[] = Category::where("name", "=", $request->category)->first();
+        }
+        
+        foreach ($categories as $category)
+        {
+            $product->categories()->save($category);
+        }
 
         return redirect()->route("product.show", ["product" => $product->id]);
     }
@@ -111,6 +129,7 @@ class ProductController extends Controller
     public function delete(Request $request, Product $product): RedirectResponse
     {
         Storage::delete("public/" . $product->images()->first()->name);
+        Product::truncate();
         $product->delete();
 
         return redirect()->route("home");

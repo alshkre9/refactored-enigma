@@ -41,11 +41,11 @@
 
         <div class="mt-4">
             <x-input-label for="role" name="role"/>
-            <select name="role" id="role" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+            <x-select name="role" id="role" customClass="w-full">
                 @foreach ($roles as $role)
                     <option value="{{ $role->name }}">{{ $role->name }}</option>
                 @endforeach
-            </select>
+            </x-select>
         </div>
 
         <div class="flex items-center justify-end mt-4">

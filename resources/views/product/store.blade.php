@@ -25,6 +25,11 @@
                 </div>
 
                 <x-product.forms.store>
+                    <x-select name="category" customClass="mb-4">
+                            <option value="both">both</option>
+                            <option value="men">men</option>
+                            <option value="women">women</option>
+                    </x-select>
                     <div class="flex w-full flex-col items-center md:justify-between md:flex-row">
                         <x-counter :quantity="1"/>
                         <x-primary-button class="w-full justify-center">
