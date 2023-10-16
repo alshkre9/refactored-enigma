@@ -8,7 +8,7 @@
                 <x-product.add/>
             @endif
             @foreach ($products as $product)
-                <x-product.card :product="$product"/>
+                    <x-product.card :product="$product"/>
             @endforeach
         </div>
     </div>

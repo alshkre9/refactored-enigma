@@ -16,8 +16,17 @@
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link> --}}
+                    @php
+                        use App\Models\Category;
+                    @endphp
+                    <x-nav-link :href="route('home', ['category' => Category::where('name', '=', 'men')->first()->id])" :active="request()->routeIs('cart')">
+                        Men
+                    </x-nav-link> 
+                    <x-nav-link :href="route('home',  ['category' => Category::where('name', '=', 'women')->first()->id])" :active="request()->routeIs('cart')">
+                        Women
+                    </x-nav-link> 
                     <x-nav-link :href="route('cart.show')" :active="request()->routeIs('cart')">
-                        {{ __('Cart') }}
+                        Cart
                     </x-nav-link>
                 </div>
             </div>

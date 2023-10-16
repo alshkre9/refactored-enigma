@@ -5,6 +5,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,11 @@ require __DIR__.'/auth.php';
 // user routes
 Route::middleware("auth")->group( function () {
 
-    Route::get("/", function() {
+    Route::get("/{category?}", function(Category $category = null) {
+        if (isset($category))
+        {
+            return view("landing", ["products" => $category->products, "role" => User::find(Auth::id())->role->name]);
+        }
         return view("landing", ["products" => Product::all(), "role" => User::find(Auth::id())->role->name]);
     })->name("home");
     

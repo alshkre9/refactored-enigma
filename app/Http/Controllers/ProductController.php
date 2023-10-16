@@ -29,8 +29,6 @@ class ProductController extends Controller
     // views
     public function show(Request $request, Product $product): View
     {
-        $image = Storage::url($product->image);
-
         return view("product.show", [
             "product" => $product,
             "role" => User::find(Auth::id())->role->name
@@ -128,10 +126,7 @@ class ProductController extends Controller
 
     public function delete(Request $request, Product $product): RedirectResponse
     {
-        Storage::delete("public/" . $product->images()->first()->name);
-        Product::truncate();
         $product->delete();
-
         return redirect()->route("home");
     }
 }
