@@ -1,28 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    @foreach ($cart as $product)
-    
-        <pre>
-                name: {{ $product[0]->name }}
-                quantity: => {{ $product[1] }}
-                price: => {{ $product[0]->price }}
-                description: {{ $product[0]->description }}
-                <form action="/cart/remove/{{ $product[0]->id }}">
-                    @csrf
-                    <button>remove</button>
-                </form>
-        </pre>
-    @endforeach
-    <form action="/cart/purchase/" method="post">
-        @csrf
-        <button>buy</button>
-    </form>
-</body>
-</html>
+<x-app-layout>
+    <div class="mt-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-rows-1 mb-6">
+            @foreach ($cart as $product)
+                <x-cart.card :product="$product[0]" :quantity="$product[1]"/>
+            @endforeach
+        </div>
+        <a href="{{ route("purchase")}}" class="bg-green-500 text-white py-2 px-3 rounded w-full">purchase</a>
+        <a href="{{ route("cart.delete")}}" class="bg-red-500 text-white py-2 px-3 rounded w-full">delete</a>
+    </div>
+</x-app-layout>

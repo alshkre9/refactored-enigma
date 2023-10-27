@@ -62,15 +62,15 @@ Route::middleware("auth")->group( function () {
     
     Route::prefix("/cart/")->group( function ()
     {
-        Route::get("", [CartController::class, "show"])->name("cart.show");
+        Route::get("/view", [CartController::class, "show"])->name("cart.show");
 
         Route::post("add/{product}", [CartController::class, "store"])->name("cart.add");
-        Route::get("remove/{product}", [CartController::class, "remove"]);
-        Route::get("delete/", [CartController::class, "delete"]);
+        Route::get("remove/{product}", [CartController::class, "remove"])->name("cart.remove");
+        Route::get("delete/", [CartController::class, "delete"])->name("cart.delete");
     });
     
     Route::prefix("/purchase/")->group( function () {
-        Route::post("", [PurchaseController::class, "store"]);
+        Route::post("", [PurchaseController::class, "store"])->name("purchase");
     });
 
 });
